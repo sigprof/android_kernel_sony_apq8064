@@ -378,6 +378,21 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		if (mutex_lock_interruptible(&scan_mutex) < 0)
 			return 0;
 	}
+<<<<<<< HEAD
+=======
+
+	other_free = global_page_state(NR_FREE_PAGES);
+
+	if (global_page_state(NR_SHMEM) + total_swapcache_pages() <
+		global_page_state(NR_FILE_PAGES) + zcache_pages())
+		other_file = global_page_state(NR_FILE_PAGES) + zcache_pages() -
+						global_page_state(NR_SHMEM) -
+						total_swapcache_pages();
+	else
+		other_file = 0;
+
+	tune_lmk_param(&other_free, &other_file, sc);
+>>>>>>> 6ecfc42... swap: make each swap partition have one address_space
 
 	other_free = global_page_state(NR_FREE_PAGES);
 	other_file = global_page_state(NR_FILE_PAGES) -
