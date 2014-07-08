@@ -96,7 +96,6 @@ static struct usb_device_id ath3k_table[] = {
 	{ USB_DEVICE(0x0CF3, 0x817a) },
 	{ USB_DEVICE(0x0CF3, 0x817b) },
 	{ USB_DEVICE(0x0cf3, 0xe003) },
-<<<<<<< HEAD
 	{ USB_DEVICE(0x0CF3, 0xE004) },
 	{ USB_DEVICE(0x0CF3, 0xE005) },
 	{ USB_DEVICE(0x13d3, 0x3362) },
@@ -113,14 +112,6 @@ static struct usb_device_id ath3k_table[] = {
 	{ USB_DEVICE(0x04CA, 0x3006) },
 	{ USB_DEVICE(0x04CA, 0x3008) },
 	{ USB_DEVICE(0x13d3, 0x3362) },
-=======
->>>>>>> 49bd272... Bluetooth: sort the list of IDs in the source code
-	{ USB_DEVICE(0x0CF3, 0xE004) },
-	{ USB_DEVICE(0x0CF3, 0xE005) },
-	{ USB_DEVICE(0x13d3, 0x3362) },
-	{ USB_DEVICE(0x13d3, 0x3375) },
-	{ USB_DEVICE(0x13d3, 0x3393) },
-	{ USB_DEVICE(0x13d3, 0x3402) },
 
 	/* Atheros AR5BBU12 with sflash firmware */
 	{ USB_DEVICE(0x0489, 0xE02C) },
