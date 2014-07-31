@@ -513,8 +513,11 @@ ssize_t device_store_int(struct device *dev, struct device_attribute *attr,
 	struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
 #define DEVICE_ATTR_RO(_name) \
 	struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+<<<<<<< HEAD
 #define DEVICE_ATTR_WO(_name) \
 	struct device_attribute dev_attr_##_name = __ATTR_WO(_name)
+=======
+>>>>>>> bc1d457... driver core: device.h: add RW and RO attribute macros
 #define DEVICE_ULONG_ATTR(_name, _mode, _var) \
 	struct dev_ext_attribute dev_attr_##_name = \
 		{ __ATTR(_name, _mode, device_show_ulong, device_store_ulong), &(_var) }
