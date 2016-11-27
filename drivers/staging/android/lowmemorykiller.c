@@ -47,7 +47,6 @@
 #include <linux/cpuset.h>
 #include <linux/show_mem_notifier.h>
 #include <linux/vmpressure.h>
-#include <linux/zcache.h>
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/almk.h>
@@ -151,7 +150,7 @@ static int lmk_vmpressure_notifier(struct notifier_block *nb,
 		return 0;
 
 	if (pressure >= 95) {
-		other_file = global_page_state(NR_FILE_PAGES) + zcache_pages() -
+		other_file = global_page_state(NR_FILE_PAGES) -
 			global_page_state(NR_SHMEM) -
 			total_swapcache_pages();
 		other_free = global_page_state(NR_FREE_PAGES);
@@ -164,7 +163,7 @@ static int lmk_vmpressure_notifier(struct notifier_block *nb,
 		if (lowmem_minfree_size < array_size)
 			array_size = lowmem_minfree_size;
 
-		other_file = global_page_state(NR_FILE_PAGES) + zcache_pages() -
+		other_file = global_page_state(NR_FILE_PAGES) -
 			global_page_state(NR_SHMEM) -
 			total_swapcache_pages();
 
@@ -403,8 +402,8 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 	other_free = global_page_state(NR_FREE_PAGES);
 
 	if (global_page_state(NR_SHMEM) + total_swapcache_pages() <
-		global_page_state(NR_FILE_PAGES) + zcache_pages())
-		other_file = global_page_state(NR_FILE_PAGES) + zcache_pages() -
+		global_page_state(NR_FILE_PAGES))
+		other_file = global_page_state(NR_FILE_PAGES) -
 						global_page_state(NR_SHMEM) -
 						total_swapcache_pages();
 	else
@@ -504,7 +503,6 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 				"   Slab Reclaimable is %ldkB\n" \
 				"   Slab UnReclaimable is %ldkB\n" \
 				"   Total Slab is %ldkB\n" \
-				"   Total zcache is %ldkB\n" \
 				"   GFP mask is 0x%x\n",
 			     selected->comm, selected->pid,
 			     selected_oom_score_adj,
@@ -528,7 +526,6 @@ static unsigned long lowmem_scan(struct shrinker *s, struct shrink_control *sc)
 				(long)(PAGE_SIZE / 1024) +
 			     global_page_state(NR_SLAB_UNRECLAIMABLE) *
 				(long)(PAGE_SIZE / 1024),
-			     (long)zcache_pages() * (long)(PAGE_SIZE / 1024),
 			     sc->gfp_mask);
 
 		if (lowmem_debug_level >= 2 && selected_oom_score_adj == 0) {
